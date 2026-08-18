@@ -81,6 +81,6 @@ export class Attendance {
   @Column({ name: 'clock_out_distance_m', type: 'decimal', precision: 10, scale: 2, nullable: true })
   clockOutDistanceM: number | null;
 
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
 }

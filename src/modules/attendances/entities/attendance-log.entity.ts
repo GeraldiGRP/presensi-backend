@@ -48,6 +48,6 @@ export class AttendanceLog {
   @Column({ name: 'distance_m', type: 'decimal', precision: 10, scale: 2, nullable: true })
   distanceM: number | null;
 
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
 }
