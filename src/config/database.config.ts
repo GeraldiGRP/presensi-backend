@@ -7,4 +7,5 @@ export default registerAs('database', () => ({
   password: process.env.DATABASE_PASSWORD ?? 'postgres',
   database: process.env.DATABASE_NAME ?? 'presensi_db',
   ssl: process.env.DATABASE_SSL === 'true',
+  synchronize: process.env.DB_SYNCHRONIZE === 'true',
 }));

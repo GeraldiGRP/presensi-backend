@@ -36,7 +36,7 @@ import { AttendanceLog } from './modules/attendances/entities/attendance-log.ent
           ? { rejectUnauthorized: false }
           : false,
         entities: [User, Office, Shift, Attendance, AttendanceLog],
-        synchronize: true,
+        synchronize: config.get('database.synchronize') ?? false,
         logging: false,
       }),
     }),
