@@ -44,7 +44,14 @@ export class AttendancesController {
   @Get('admin/attendances')
   @UseGuards(RolesGuard)
   @Roles(UserRole.HR, UserRole.ADMIN)
-  async getReport(@Query('date') date: string, @Query('status') status?: string) {
+  async getReport(
+    @Query('date') date: string,
+    @Query('month') month?: string,
+    @Query('status') status?: string,
+  ) {
+    if (month) {
+      return this.attendancesService.getReportByMonth(month, status);
+    }
     const reportDate = date || (() => {
       const d = new Date();
       return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;

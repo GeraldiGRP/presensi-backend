@@ -188,6 +188,30 @@ export class AttendancesService {
     return qb.orderBy('user.name', 'ASC').getMany();
   }
 
+  async getReportByMonth(month: string, status?: string) {
+    if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(month)) {
+      throw new BadRequestException('Format bulan tidak valid (YYYY-MM)');
+    }
+    const [year, mon] = month.split('-').map(Number);
+    const start = `${year}-${String(mon).padStart(2, '0')}-01`;
+    const end = this.getMonthEnd(year, mon);
+
+    const qb = this.attendanceRepo
+      .createQueryBuilder('a')
+      .leftJoinAndSelect('a.user', 'user')
+      .leftJoinAndSelect('a.shift', 'shift')
+      .where('a.workDate BETWEEN :start AND :end', { start, end });
+
+    if (status) {
+      qb.andWhere('a.checkInStatus = :status', { status });
+    }
+
+    return qb
+      .orderBy('a.workDate', 'ASC')
+      .addOrderBy('user.name', 'ASC')
+      .getMany();
+  }
+
   async getMonthlyStats(year: number, month: number) {
     const start = `${year}-${String(month).padStart(2, '0')}-01`;
     const end = this.getMonthEnd(year, month);
